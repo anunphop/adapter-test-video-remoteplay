@@ -1,0 +1,67 @@
+<html>
+    <head>
+        <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-analytics.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-firestore.js"></script>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
+        <script>
+            const firebaseConfig = {
+                apiKey: "AIzaSyDh3r28A45ltuD2iajeHnN4EhLohLEvuTc",
+                authDomain: "fea-adapterinnovation.firebaseapp.com",
+                databaseURL: "https://fea-adapterinnovation.firebaseio.com",
+                projectId: "fea-adapterinnovation",
+                storageBucket: "fea-adapterinnovation.appspot.com",
+                messagingSenderId: "781233103985",
+                appId: "1:781233103985:web:8c2f79afeb8de7554de7d0",
+                measurementId: "G-K01P076J9M"
+            }
+            firebase.initializeApp(firebaseConfig)
+            firebase.analytics()
+
+            const database = firebase.firestore()
+        </script>
+    </head>
+    <body>
+        <h1>Adapter Test Video</h1>
+        <video id="myVideo" muted>
+            <source src="video.mp4" type="video/mp4">
+        </video>
+        <button id="ready" onclick="isReady()">READY</button>
+
+        <script>
+            function isReady() {
+                $("#myVideo").prop('muted', false)
+                $("#ready").hide()
+            }
+            function playPause() { 
+                if (myVideo.paused) 
+                    myVideo.play()
+                else 
+                    myVideo.pause()
+             }
+            function playVideo() {
+                myVideo.play()
+            }
+            function pauseVideo() {
+                myVideo.pause()
+            }
+
+            $(document).ready(() => {
+                database.collection('ads').doc('5eccafd99a21314e9979a4c3').onSnapshot((doc) => {
+                    const isPlay = doc.data().isPlay
+                    console.log(isPlay)
+                    if(isPlay) {
+                        console.log('play video')
+                        playVideo()
+                    }
+                    else {
+                        console.log('pause video')
+                        pauseVideo()
+                    }
+                })
+            })
+        </script>
+    </body>
+</html>
